@@ -72,7 +72,7 @@ const buyerNav = [
     items: [
       {
         title: "Post a Request",
-        url: "post-request",
+        url: "sourcing-agents",
       },
       {
         title: "All Requests",
@@ -92,6 +92,10 @@ const buyerNav = [
       {
         title: "Explore Products",
         url: "getimages",
+      },
+      {
+        title: "Rate a Product",
+        url: "ratings",
       },
     ],
   },
@@ -119,10 +123,10 @@ const agentNav = [
     url: "#",
     icon: SquareTerminal,
     items: [
-      // {
-      //   title: "My Products",
-      //   url: "agent-products",
-      // },
+      {
+        title: "Track Product",
+        url: "static-trakcer",
+      },
       {
         title: "Add Product",
         url: "add-photos",

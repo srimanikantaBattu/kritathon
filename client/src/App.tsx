@@ -17,6 +17,7 @@ import BuyerRequests from "./pages/Agent/BuyerRequests";
 import BuyerChat from "./pages/Agent/BuyerChat";
 import AgentChat from "./pages/Agent/AgentChat";
 import StaticTracker from "./pages/StaticTracker";
+import Rating from "./pages/Ratings";
 function App() {
   const router = createBrowserRouter([
     {
@@ -75,6 +76,9 @@ function App() {
         },{
           path:"/static-tracker",
           element:<StaticTracker/>
+        },{
+          path:"/ratings",
+          element:<Rating/>
         }
       ]
     }
