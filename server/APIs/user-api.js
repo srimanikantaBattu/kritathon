@@ -326,4 +326,22 @@ userApp.get("/:id", expressAsyncHandler(async (req, res) => {
     }
 }));
 
+userApp.get("/test/requests/:id", expressAsyncHandler(async (req, res) => {
+  let ids = req.params.id;
+    // console.log(new ObjectId(buyerId))
+     ids = new ObjectId(ids);
+    console.log("came here")
+    const user = await usersCollection.findOne({ _id: ids, userType: "buyer" });
+    if (!user) {
+        return res.status(404).send({
+            success: false,
+            message: "User not found"
+        });
+    }
+    res.send({
+        success: true,
+        requests: user.requests || []
+    });
+}));
+
 module.exports = userApp;

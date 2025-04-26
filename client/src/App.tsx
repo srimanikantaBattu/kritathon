@@ -13,6 +13,7 @@ import BuyerAccepted from "./pages/Agent/BuyerAccepted";
 import Requests from "./pages/Agent/Request";
 import ProfilePage from "./pages/Agent/ProfilePage";
 import SourcingAgentsPage from "./pages/Agent/SourcingAgent";
+import BuyerRequests from "./pages/Agent/BuyerRequests";
 function App() {
   const router = createBrowserRouter([
     {
@@ -58,6 +59,10 @@ function App() {
         },{
           path:"/agent/:id",
           element:<ProfilePage/>
+        },
+        {
+          path:"/buyer-requests",
+          element:<BuyerRequests/>
         }
       ]
     }
