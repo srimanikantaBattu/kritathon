@@ -14,6 +14,9 @@ import Requests from "./pages/Agent/Request";
 import ProfilePage from "./pages/Agent/ProfilePage";
 import SourcingAgentsPage from "./pages/Agent/SourcingAgent";
 import BuyerRequests from "./pages/Agent/BuyerRequests";
+import BuyerChat from "./pages/Agent/BuyerChat";
+import AgentChat from "./pages/Agent/AgentChat";
+import StaticTracker from "./pages/StaticTracker";
 function App() {
   const router = createBrowserRouter([
     {
@@ -63,6 +66,15 @@ function App() {
         {
           path:"/buyer-requests",
           element:<BuyerRequests/>
+        },{
+          path:"buyer-chat/:id",
+          element:<BuyerChat/>
+        },{
+          path:"agent-chat/:id",
+          element:<AgentChat/>
+        },{
+          path:"/static-tracker",
+          element:<StaticTracker/>
         }
       ]
     }

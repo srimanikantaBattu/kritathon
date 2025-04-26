@@ -14,6 +14,14 @@ userApp.use((req, res, next) => {
     next();
 });
 
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+      user: "jsunnybabu@gmail.com",
+      pass: "xfat youp slox nxgs"
+  }
+});
+
 // Register new user
 userApp.post("/register", expressAsyncHandler(async (req, res) => {
     const data = req.body;
@@ -22,28 +30,75 @@ userApp.post("/register", expressAsyncHandler(async (req, res) => {
 }));
 
 userApp.post("/buyer-request", expressAsyncHandler(async (req, res) => {
-  console.log("came here");
-  console.log(req.body.agentId)
-    const agentId = req.body.agentId;
-    const buyerData = req.body.buyerData;
-    const requests = req.body.requests;
+  try {
+      const agentId = req.body.agentId;
+      const buyerData = req.body.buyerData;
+      const requests = req.body.requests;
 
-    console.log("Agent ID:", agentId);
+      // Update buyer's requests
+      await usersCollection.updateOne(
+          { _id: new ObjectId(buyerData.buyerId) },
+          { $push: { requests: buyerData } }
+      );
 
-    await usersCollection.updateOne(
-        { _id: new ObjectId(buyerData.buyerId) },
-        { $push: { requests: buyerData } }
-    );
+      // Update agent's requests
+      const result = await usersCollection.updateOne(
+          { _id: new ObjectId(agentId) },
+          { $push: { requests: requests } }
+      );
 
-     // Initialize requests array if it doesn't exist
-     
+      // Get agent's email
+      const agent = await usersCollection.findOne({ _id: new ObjectId(agentId) });
+      if (!agent) {
+          return res.status(404).send({ message: "Agent not found" });
+      }
 
-     // Update the user document with the new requests array
-     const result = await usersCollection.updateOne(
-         { _id: new ObjectId(agentId) },
-         { $push: { requests: requests } },
-     );
+      // Email content
+      const mailOptions = {
+          from: process.env.EMAIL_USER,
+          to: agent.email,
+          subject: `New Quote Request from ${buyerData.buyerName}`,
+          html: `
+              <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                  <h2 style="color: #d97706;">New Quote Request</h2>
+                  <p>You have received a new quote request from ${buyerData.buyerName}.</p>
+                  
+                  <h3 style="color: #d97706; margin-top: 20px;">Request Details:</h3>
+                  <ul>
+                      <li><strong>Item:</strong> ${requests.itemName}</li>
+                      <li><strong>Category:</strong> ${requests.category}</li>
+                      <li><strong>Quantity:</strong> ${requests.quantity}</li>
+                      <li><strong>Expected Delivery:</strong> ${requests.expectedDeliveryDate}</li>
+                      <li><strong>Additional Specifications:</strong> ${requests.additionalSpecifications || 'None provided'}</li>
+                  </ul>
+                  
+                  <p style="margin-top: 30px;">Please respond to this request within 24 hours.</p>
+                  
+                  <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #e5e7eb;">
+                      <p>Best regards,</p>
+                      <p>Your Sourcing Platform Team</p>
+                  </div>
+              </div>
+          `
+      };
 
+      // Send email
+      transporter.sendMail(mailOptions, (error, info) => {
+          if (error) {
+              console.error("Error sending email:", error);
+              return res.status(500).send({ message: "Request saved but failed to send email" });
+          }
+          console.log("Email sent:", info.response);
+          res.send({ 
+              message: "Request submitted successfully and email sent to agent",
+              result: result 
+          });
+      });
+
+  } catch (error) {
+      console.error("Error in buyer-request:", error);
+      res.status(500).send({ message: "Internal server error" });
+  }
 }));
 
 userApp.post("/login", expressAsyncHandler(async (req, res) => {

@@ -30,6 +30,7 @@ import { MoreVertical, Phone, MessageSquare, Eye } from 'lucide-react'
 import { format } from 'date-fns'
 import { Toaster } from '@/components/ui/sonner'
 import * as XLSX from 'xlsx'
+import { useNavigate } from 'react-router-dom'
 
 interface Request {
   _id: string
@@ -46,6 +47,7 @@ export default function AgentAcceptedRequests() {
   const [requests, setRequests] = useState<Request[]>([])
   const [loading, setLoading] = useState(true)
   const userId = localStorage.getItem('userId')
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchAcceptedRequests = async () => {
@@ -72,11 +74,12 @@ export default function AgentAcceptedRequests() {
     window.open(`tel:${phoneNumber}`)
   }
 
-  const handleChat = (requestId: string) => {
-    toast.success(`Chat initiated for request ${requestId}`, {
+  const handleChat = (request:any) => {
+    console.log(request)
+    toast.success(`Chat initiated for request ${request.email}`, {
       action: {
-        label: 'Open Chat',
-        onClick: () => console.log('Open chat implementation'),
+        label: "Open Chat",
+        onClick: () => navigate(`/agent-chat/${request.requestId}`),
       },
     })
   }
@@ -173,7 +176,7 @@ export default function AgentAcceptedRequests() {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                           <DropdownMenuItem
-                            onClick={() => handleChat(request._id)}
+                            onClick={() => handleChat(request)}
                           >
                             <MessageSquare className="mr-2 h-4 w-4" />
                             Chat

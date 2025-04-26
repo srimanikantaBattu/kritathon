@@ -1,14 +1,9 @@
 import * as React from "react"
 import {
-  AudioWaveform,
-  BookOpen,
   Bot,
-  Command,
   Frame,
   GalleryVerticalEnd,
-  Map,
   PieChart,
-  Settings2,
   SquareTerminal,
 } from "lucide-react"
 
@@ -24,134 +19,122 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar"
 
-// This is sample data.
-const data = {
+// Get user data from localStorage
+const username = localStorage.getItem("name")
+const email = localStorage.getItem("email")
+const userType = localStorage.getItem("userType") // 'buyer' or 'agent'
+
+// Common data
+const commonData : any = {
   user: {
-    name: "shadcn",
-    email: "m@example.com",
+    name: username,
+    email: email,
     avatar: "/avatars/shadcn.jpg",
   },
   teams: [
     {
-      name: "Acme Inc",
+      name: "Bharat Vyapaar",
       logo: GalleryVerticalEnd,
-      plan: "Enterprise",
-    },
-    {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
-    },
-  ],
-  navMain: [
-    {
-      title: "Playground",
-      url: "#",
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
-        {
-          title: "History",
-          url: "#",
-        },
-        {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Models",
-      url: "#",
-      icon: Bot,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
     },
   ],
   projects: [
     {
-      name: "Design Engineering",
+      name: "Marketing",
       url: "#",
       icon: Frame,
     },
     {
-      name: "Sales & Marketing",
+      name: "Sales",
       url: "#",
       icon: PieChart,
     },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
-    },
   ],
+}
+
+// Buyer-specific navigation
+const buyerNav = [
+  {
+    title: "Search",
+    url: "#",
+    icon: SquareTerminal,
+    isActive: true,
+    items: [
+      {
+        title: "Sourcing Agents",
+        url: "sourcing-agents",
+      },
+    ],
+  },
+  {
+    title: "Requests",
+    url: "#",
+    icon: Bot,
+    items: [
+      {
+        title: "Post a Request",
+        url: "post-request",
+      },
+      {
+        title: "All Requests",
+        url: "buyer-requests",
+      },
+      {
+        title: "Accepted Requests",
+        url: "buyer-accepted",
+      },
+    ],
+  },
+  {
+    title: "Products",
+    url: "#",
+    icon: SquareTerminal,
+    items: [
+      {
+        title: "Explore Products",
+        url: "getimages",
+      },
+    ],
+  },
+]
+
+// Agent-specific navigation
+const agentNav = [
+  {
+    title: "Requests",
+    url: "#",
+    icon: Bot,
+    items: [
+      {
+        title: "Available Requests",
+        url: "requests",
+      },
+      {
+        title: "Accepted Proposals",
+        url: "agent-accepted",
+      },
+    ],
+  },
+  {
+    title: "Products",
+    url: "#",
+    icon: SquareTerminal,
+    items: [
+      // {
+      //   title: "My Products",
+      //   url: "agent-products",
+      // },
+      {
+        title: "Add Product",
+        url: "add-photos",
+      },
+    ],
+  },
+]
+
+// Combine common data with role-specific data
+const data = {
+  ...commonData,
+  navMain: userType === 'buyer' ? buyerNav : agentNav
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { 
-  Card, 
-  CardHeader, 
-  CardTitle, 
-  CardDescription, 
-  CardContent, 
-  CardFooter 
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter
 } from "@/components/ui/card";
 import {
   Select,
@@ -19,11 +19,11 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion";
-import { 
-  FiMail, 
-  FiPhone, 
-  FiMapPin, 
-  FiShoppingBag, 
+import {
+  FiMail,
+  FiPhone,
+  FiMapPin,
+  FiShoppingBag,
   FiSearch,
   FiStar,
   FiAward,
@@ -81,11 +81,11 @@ export default function SourcingAgentsPage() {
 
   const filteredAgents = agents.filter(
     (agent) =>
-      (selectedCategory === "all" || 
-       (agent.expertiseCategories && agent.expertiseCategories.includes(selectedCategory))) &&
+      (selectedCategory === "all" ||
+        (agent.expertiseCategories && agent.expertiseCategories.includes(selectedCategory))) &&
       (agent.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-       agent.agencyName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-       agent.location?.toLowerCase().includes(searchQuery.toLowerCase()))
+        agent.agencyName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        agent.location?.toLowerCase().includes(searchQuery.toLowerCase()))
   );
 
   // Get all unique expertise categories for filter dropdown
@@ -111,8 +111,8 @@ export default function SourcingAgentsPage() {
           <div className="text-6xl mb-6 text-amber-500/50">⚠</div>
           <h3 className="text-2xl font-medium mb-2 text-zinc-100">Error loading agents</h3>
           <p className="text-zinc-400 mb-6">{error}</p>
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             className="border-amber-500 text-amber-500 hover:bg-amber-500/10"
             onClick={() => window.location.reload()}
           >
@@ -132,7 +132,7 @@ export default function SourcingAgentsPage() {
         transition={{ duration: 0.5 }}
       >
         {/* Hero Section */}
-        <motion.div 
+        <motion.div
           className="text-center mb-12 py-8 px-4 rounded-xl bg-gradient-to-r from-amber-900/20 via-transparent to-amber-900/20 border border-amber-800/30"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -173,9 +173,9 @@ export default function SourcingAgentsPage() {
               <SelectContent className="bg-zinc-800 border-zinc-700 text-white">
                 <SelectItem value="all" className="hover:bg-zinc-700 focus:bg-zinc-700">All Categories</SelectItem>
                 {allCategories.map((category) => (
-                  <SelectItem 
-                    key={category} 
-                    value={category} 
+                  <SelectItem
+                    key={category}
+                    value={category}
                     className="hover:bg-zinc-700"
                   >
                     {category}
@@ -188,7 +188,7 @@ export default function SourcingAgentsPage() {
 
         {/* Agents Grid */}
         {!filteredAgents || filteredAgents.length === 0 ? (
-          <motion.div 
+          <motion.div
             className="text-center py-16 px-4 rounded-xl bg-zinc-800/50 border border-zinc-700/50"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -197,8 +197,8 @@ export default function SourcingAgentsPage() {
             <div className="text-6xl mb-6 text-amber-500/50">🔍</div>
             <h3 className="text-2xl font-medium mb-2 text-zinc-100">No agents found</h3>
             <p className="text-zinc-400 mb-6">Try adjusting your search or filter criteria</p>
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               className="border-amber-500 text-amber-500 hover:bg-amber-500/10"
               onClick={() => {
                 setSelectedCategory("all");
@@ -209,7 +209,7 @@ export default function SourcingAgentsPage() {
             </Button>
           </motion.div>
         ) : (
-          <motion.div 
+          <motion.div
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -254,8 +254,8 @@ export default function SourcingAgentsPage() {
                       </div>
                       <div className="flex flex-wrap gap-2">
                         {(agent.expertiseCategories || []).map((category) => (
-                          <Badge 
-                            key={category} 
+                          <Badge
+                            key={category}
                             variant="secondary"
                             className="bg-zinc-700/50 text-zinc-200 hover:bg-amber-900/30 hover:text-amber-200 transition-colors"
                           >
@@ -271,8 +271,8 @@ export default function SourcingAgentsPage() {
                       </div>
                       <div className="flex flex-wrap gap-2">
                         {(agent.languages || []).map((language) => (
-                          <Badge 
-                            key={language} 
+                          <Badge
+                            key={language}
                             variant="outline"
                             className="text-zinc-300 border-zinc-600 hover:bg-zinc-700/50"
                           >
@@ -299,8 +299,8 @@ export default function SourcingAgentsPage() {
                         {agent.experience}+ years
                       </span>
                     </div>
-                    <Button 
-                      size="sm" 
+                    <Button
+                      size="sm"
                       variant="outline"
                       className="border-amber-500 text-amber-500 hover:bg-amber-500/10 hover:border-amber-400 group-hover:bg-amber-500/10 transition-colors"
                       onClick={() => navigate(`/agent/${agent._id}`)}
@@ -316,8 +316,8 @@ export default function SourcingAgentsPage() {
 
         {/* Stats Section - Only show if we have agents */}
         {agents && agents.length > 0 && (
-          <motion.div 
-            className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 text-center"
+          <motion.div
+            className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-4 text-center"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
@@ -330,12 +330,6 @@ export default function SourcingAgentsPage() {
             <div className="bg-zinc-800/50 p-6 rounded-lg border border-zinc-700/50">
               <div className="text-3xl font-bold text-amber-400 mb-2">{allCategories.length}+</div>
               <div className="text-zinc-400">Expertise Areas</div>
-            </div>
-            <div className="bg-zinc-800/50 p-6 rounded-lg border border-zinc-700/50">
-              <div className="text-3xl font-bold text-amber-400 mb-2">
-                {Math.round(agents.reduce((sum, agent) => sum + (agent.experience || 0), 0) / Math.max(1, agents.length))}+
-              </div>
-              <div className="text-zinc-400">Avg. Experience</div>
             </div>
             <div className="bg-zinc-800/50 p-6 rounded-lg border border-zinc-700/50">
               <div className="text-3xl font-bold text-amber-400 mb-2">

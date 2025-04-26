@@ -107,7 +107,7 @@ export function LoginForm({
               </div>
             </div>
             
-            <div className="mt-4 text-center text-sm">
+            <div className="mt-4 text-center text-sm" onClick={() => navigate('/register')}>
               Don't have an account?{" "}
               <a href="/register" className="underline underline-offset-4">
                 Sign up

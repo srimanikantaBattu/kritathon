@@ -15,8 +15,10 @@ MongoClient.connect(DB_URL)
     const dbObj = client.db("krithoathon3");
     const usersCollection = dbObj.collection("usersCollection");
     const productsCollection = dbObj.collection("productsCollection");
+    const chatCollection = dbObj.collection("chatCollection");
     app.set("usersCollection", usersCollection);
     app.set("productsCollection", productsCollection);
+    app.set("chatCollection", chatCollection);
     console.log("Connected to Database");
   })
   .catch((err) => {

@@ -6,10 +6,16 @@ const multer = require('multer');
 const { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } = require('@aws-sdk/client-s3');
 const crypto = require('crypto');
 const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
+const { type } = require('os');
+const { ObjectId } = require('mongodb');
 
 let productsCollection;
+let chatCollection;
+let usersCollection;
 productApp.use((req, res, next) => {
     productsCollection = req.app.get("productsCollection");
+    chatCollection = req.app.get("chatCollection");
+    usersCollection = req.app.get("usersCollection");
     next();
 });
 
@@ -117,6 +123,42 @@ productApp.get('/files', expressAsyncHandler(async (req, res) => {
         file.photo3 = url3;
     }
     res.send(files);
+}));
+
+productApp.post('/chat', expressAsyncHandler(async (req, res) => {
+    let agentId = req.body.agentId
+    let buyerId = req.body.buyerId
+    // console.log(agentId,buyerId)
+    const chats = await chatCollection.findOne({ agentId: agentId, buyerId: buyerId });
+    // console.log(chats)
+    res.send(chats.messages);
+}));
+
+productApp.post('/update-chat', expressAsyncHandler(async (req, res) => {
+    let agentId = req.body.agentId
+    let buyerId = req.body.buyerId
+    let userType = req.body.userType
+    let message = req.body.message
+    let obj = {
+        type: userType,
+        message: message
+    }
+    // console.log(agentId,buyerId,message)
+    const chats = await chatCollection.findOne({ agentId: agentId, buyerId: buyerId });
+    // console.log(chats)
+    await chatCollection.updateOne({ agentId: agentId, buyerId: buyerId }, { $push: { messages: obj } });
+    const messages = await chatCollection.findOne({ agentId: agentId, buyerId: buyerId });
+    res.send(messages.messages);
+}));
+
+productApp.post('/get-name', expressAsyncHandler(async (req, res) => {
+    let id = req.body.id
+    console.log(id)
+    const user = await usersCollection.findOne({ _id: new ObjectId(id) });
+    console.log(id)
+    console.log(user)
+    res.send(user.name);
+
 }));
 
 module.exports = productApp;

@@ -62,7 +62,6 @@ interface Product {
   photo1: string
   photo2: string
   photo3: string
-  email: string
   createdAt: string
 }
 
@@ -629,7 +628,6 @@ function ProductGallery() {
                       <div className="flex justify-between items-start">
                         <div>
                           <CardTitle className="text-xl line-clamp-1">{product.productName}</CardTitle>
-                            <span className="text-lg ">{product.email}</span>
                           <div className="flex items-center gap-1 mt-1 text-muted-foreground">
                             <MapPin className="h-4 w-4 flex-shrink-0" />
                             <span className="text-sm">{product.location}</span>
@@ -730,7 +728,7 @@ function ProductGallery() {
                           </DialogFooter>
                         </DialogContent>
                       </Dialog>
-                      
+
                       <Button variant="outline" size="icon">
                         <Share2 className="h-4 w-4" />
                       </Button>
