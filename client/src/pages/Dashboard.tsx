@@ -8,7 +8,7 @@ export function Dashboard() {
   
   useEffect(() => {
     // Get user from localStorage on client side
-    setUser(localStorage.getItem('name') || '');
+    setUser(localStorage.getItem('name') || 'User');
   }, []);
 
   return (
