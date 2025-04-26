@@ -97,6 +97,10 @@ const buyerNav = [
         title: "Rate a Product",
         url: "ratings",
       },
+      {
+        title: "Live Tracking",
+        url: "location-track",
+      },
     ],
   },
 ]
